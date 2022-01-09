@@ -7,4 +7,20 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="res\classic.png" />
+    <None Remove="res\diamond.png" />
+    <None Remove="res\jelzin.png" />
+    <None Remove="res\top.png" />
+    <None Remove="res\vlakoff.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="res\classic.png" />
+    <Resource Include="res\diamond.png" />
+    <Resource Include="res\jelzin.png" />
+    <Resource Include="res\top.png" />
+    <Resource Include="res\vlakoff.png" />
+  </ItemGroup>
+
 </Project>

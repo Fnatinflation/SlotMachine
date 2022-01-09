@@ -7,9 +7,19 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBlock FontSize="30px" x:Name="skrtBlock" HorizontalAlignment="Center" Margin="0,202,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-        <Button x:Name="Skrt" Content="Button" HorizontalAlignment="Center" Margin="0,288,0,0" VerticalAlignment="Top" Click="Skrt_Click"/>
-        <TextBlock FontSize="30px" x:Name="rollText" HorizontalAlignment="Center" Margin="0,157,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <TextBlock FontSize="30px" x:Name="explanationText" HorizontalAlignment="Center" Margin="0,307,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <Button x:Name="RollButton" Content="Button" HorizontalAlignment="Center" Margin="0,363,0,0" VerticalAlignment="Top" Click="RollButton_Click"/>
+        <TextBlock FontSize="30px" x:Name="rollText" HorizontalAlignment="Center" Margin="0,257,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <TextBlock FontSize="30px" x:Name="balanceText" HorizontalAlignment="Left" Margin="607,0,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="193"/>
+        <Border BorderBrush="Black" BorderThickness="3" Margin="142,69,513,185">
+            <Image  x:Name="Reel1" Margin="1,-1,-1,1"/>
+        </Border>
+        <Border BorderBrush="Black" BorderThickness="3" Margin="513,69,142,185">
+            <Image x:Name="Reel2" Margin="1,-1,-1,1"/>
+        </Border>
+         <Border BorderBrush="Black" BorderThickness="3" Margin="328,69,328,185">
+            <Image x:Name="Reel3" Margin="1,-1,-1,1"/>
+        </Border>
 
     </Grid>
 </Window>

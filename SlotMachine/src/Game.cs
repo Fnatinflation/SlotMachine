@@ -9,32 +9,27 @@ namespace SlotMachine.src
 {
     class Game
     {
-        private string[][] icons;
-        private List<string[]> winners;
+        private List<List<char>> reels;
+        private List<Winner> winners;
 
-        public Game(int noOfReels)
+        public Game()
         {
-            icons = new string[noOfReels][];
-            winners = new List<string[]>();
+            reels = new List<List<char>>();
+            winners = new List<Winner>();
         }
-        public int getNoOfReels()
+       public void addReel(List<char> reel) {
+            reels.Add(reel);
+        }
+        public List<List<char>> GetReels()
         {
-            return icons.Length;
+            return reels;
         }
-        public void setIcons(int reelNo, string[] icons)
-        {
-            this.icons[reelNo] = icons;
-        }
-        public string[][] getIcons()
-        {
-            return icons;
-        }
-        public void addWinner(string[] winner)
+        public void addWinner(Winner winner)
         {
             winners.Add(winner);
 
         }
-        public List<string[]> getWinners()
+        public List<Winner> getWinners()
         {
             return winners;
         }

@@ -1,6 +1,7 @@
 ﻿using SlotMachine.src;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,31 +22,60 @@ namespace SlotMachine
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Dictionary<char, BitmapImage> images;
         private Slot slot;
-
+        private Wallet wallet;
+        private Game game;
 
         public MainWindow()
         {
             InitializeComponent();
-            skrtBlock.Text = "Press roll!!";
-            rollText.Text = "Press roll!!";
+            wallet = new Wallet();
+            game = new Game();
 
-            slot = new Slot();
+            wallet.AddCoins(100);
+
+            explanationText.Text = "Press roll!!";
+            rollText.Text = "Press roll!!";
+            balanceText.Text = wallet.GetBalance().ToString();
+
+            images = new Dictionary<char,BitmapImage>();
+
+
+            images.Add('j',new BitmapImage(new Uri(@"..\res\jelzin.png", UriKind.Relative)));
+            images.Add('a', new BitmapImage(new Uri(@"..\res\top.png", UriKind.Relative)));
+            images.Add('b', new BitmapImage(new Uri(@"..\res\classic.png", UriKind.Relative)));
+            images.Add('c', new BitmapImage(new Uri(@"..\res\vlakoff.png", UriKind.Relative)));
+            images.Add('d', new BitmapImage(new Uri(@"..\res\diamond.png", UriKind.Relative)));
+
+
+            slot = new Slot(wallet,game);
 
 
         }
 
-        private void Skrt_Click(object sender, RoutedEventArgs e)
+        private void RollButton_Click(object sender, RoutedEventArgs e)
         {
-            string[] result = slot.roll();
+            List<char> result = slot.Roll();
+
+            //int index = game.GetReels[0].getPosition();
+
+            Reel1.Source = images[result[0]];
+            Reel2.Source = images[result[1]];
+            Reel3.Source = images[result[2]];
+
             rollText.Text = result[0] + "," + result[1] + "," + result[2];
-            if (slot.win(result))
+            int prize = slot.Win(result);
+            if (prize!=0)
             {
-                skrtBlock.Text = "You won!!!";
+                explanationText.Text = "You won "+prize +"!!!";
+                balanceText.Text = wallet.GetBalance().ToString();
+ 
             }
             else
             {
-                skrtBlock.Text = "Try again ...";
+                explanationText.Text = "Try again ...";
+                balanceText.Text = wallet.GetBalance().ToString();
             }
 
         }
