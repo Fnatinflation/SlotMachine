@@ -14,22 +14,8 @@ namespace SlotMachine.src
         public Wallet()
         {
             balance = 0;
-            betSize = 1;
         }
 
-        public void IncreaseBet()
-        {
-            betSize++;
-        }
-        public bool DecreaseBet()
-        {
-            if (betSize != 1)
-            {
-                betSize--;
-                return true;
-            }
-            return false;
-        }
         public void AddCoins(int amount)
         {
             balance += amount;
@@ -50,9 +36,5 @@ namespace SlotMachine.src
             return balance;
         }
 
-        internal int GetBetSize()
-        {
-            return betSize;
-        }
     }
 }

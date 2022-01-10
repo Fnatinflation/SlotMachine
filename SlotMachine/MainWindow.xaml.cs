@@ -32,12 +32,14 @@ namespace SlotMachine
             InitializeComponent();
             wallet = new Wallet();
             game = new Game();
+            slot = new Slot(wallet, game);
 
             wallet.AddCoins(100);
 
             explanationText.Text = "Press roll!!";
             rollText.Text = "Press roll!!";
             balanceText.Text = wallet.GetBalance().ToString();
+            UpdateBetText();
 
             images = new Dictionary<char,BitmapImage>();
 
@@ -49,16 +51,21 @@ namespace SlotMachine
             images.Add('d', new BitmapImage(new Uri(@"..\res\diamond.png", UriKind.Relative)));
 
 
-            slot = new Slot(wallet,game);
 
 
         }
-
+        internal void UpdateBetText()
+        {
+            betSizeText.Text = "Bet Size: " + slot.GetBetSize();
+        }
         private void RollButton_Click(object sender, RoutedEventArgs e)
         {
             List<char> result = slot.Roll();
-
-            //int index = game.GetReels[0].getPosition();
+            if(result.Count == 0)
+            {
+                explanationText.Text = "Busted ...";
+                return;
+            }
 
             Reel1.Source = images[result[0]];
             Reel2.Source = images[result[1]];
@@ -77,6 +84,19 @@ namespace SlotMachine
                 explanationText.Text = "Try again ...";
                 balanceText.Text = wallet.GetBalance().ToString();
             }
+
+        }
+
+        private void IncreaseBet_Click(object sender, RoutedEventArgs e)
+        {
+            slot.IncreaseBetSize();
+            UpdateBetText();
+        }
+
+        private void DecreaseBet_Click(object sender, RoutedEventArgs e)
+        {
+            slot.DecreaseBetSize();
+            UpdateBetText();
 
         }
     }

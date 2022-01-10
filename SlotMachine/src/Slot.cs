@@ -8,12 +8,15 @@ namespace SlotMachine.src
     class Slot
     {
         private Game game;
+        private int betSize;
         private Wallet wallet;
+        private int maxBet = 50;
 
         public Slot(Wallet wallet, Game game)
         {
             this.wallet = wallet;
             this.game = game;
+            betSize = 1;
 
             Dictionary<char, int> symbols0 = new Dictionary<char, int>();
             symbols0.Add('j', 1);
@@ -71,25 +74,52 @@ namespace SlotMachine.src
 
         }
 
+        internal int GetBetSize()
+        {
+            return betSize;
+        }
+
         public List<char> Roll()
         {
-            wallet.UseCoins(wallet.GetBetSize());
-
-            Random random = new Random();
-            List<List<char>> reels = game.GetReels();
             List<char> result = new List<char>();
 
-            foreach(List<char> reel in reels)
+            if (wallet.GetBalance() - betSize >= 0)
             {
-                int r = random.Next(0, reel.Count);
-                result.Add(reel[r]);
+                wallet.UseCoins(betSize);
+
+                Random random = new Random();
+                List<List<char>> reels = game.GetReels();
+
+                foreach (List<char> reel in reels)
+                {
+                    int r = random.Next(0, reel.Count);
+                    result.Add(reel[r]);
+                }
+
             }
-            
             return result;
 
+
+        }
+
+        public void IncreaseBetSize()
+        {
+            if(betSize <= maxBet-1 && betSize <= wallet.GetBalance())
+            {
+                betSize++;
+            }
+        }
+        public bool DecreaseBetSize()
+        {
+            if (betSize != 1 )
+            {
+                betSize--;
+                return true;
+            }
+            return false;
         }
         public int Win(List<char> result)
-        {
+        {   
             int won = 0;
             List<Winner> winners = game.getWinners();
             foreach (Winner winner in winners)
@@ -100,7 +130,7 @@ namespace SlotMachine.src
                     if(c.Key == winner.Symbol && c.Value == winner.Amount)
                     {
                         won = winner.Prize;
-                        wallet.AddCoins(winner.Prize);
+                        wallet.AddCoins(winner.Prize*betSize);
                     }
                 }
             }

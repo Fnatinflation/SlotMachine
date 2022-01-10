@@ -17,9 +17,13 @@
         <Border BorderBrush="Black" BorderThickness="3" Margin="513,69,142,185">
             <Image x:Name="Reel2" Margin="1,-1,-1,1"/>
         </Border>
-         <Border BorderBrush="Black" BorderThickness="3" Margin="328,69,328,185">
+        <Border BorderBrush="Black" BorderThickness="3" Margin="328,69,328,185">
             <Image x:Name="Reel3" Margin="1,-1,-1,1"/>
         </Border>
+        <TextBlock FontSize="18px" Text="Current Betsize: " x:Name="betSizeText"  HorizontalAlignment="Left" Margin="15,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Button x:Name="IncreaseBet" Content="+" HorizontalAlignment="Left" Margin="35,40,0,0" VerticalAlignment="Top" Height="30" Width="30" Click="IncreaseBet_Click"/>
+        <Button x:Name="DecreaseBet" Content="-" HorizontalAlignment="Left" Margin="70,40,0,0" VerticalAlignment="Top" Height="30" Width="30" Click="DecreaseBet_Click"/>
+
 
     </Grid>
 </Window>
