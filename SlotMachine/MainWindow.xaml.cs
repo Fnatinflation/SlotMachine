@@ -75,6 +75,7 @@ namespace SlotMachine
         private DispatcherTimer timer = new DispatcherTimer();
         private List<char> result;
         private List<int> indexes = new List<int>();
+        private int prize;
 
         private async void Spin()
         {
@@ -160,7 +161,6 @@ namespace SlotMachine
 
         private void UpdateWinTexts()
         {
-            int prize = slot.Win(result);
             if (prize != 0)
             {
                 explanationText.Text = "You won " + prize + "!!!";
@@ -179,6 +179,7 @@ namespace SlotMachine
             var roll = slot.Roll();
             result = roll.Item1;
             indexes = roll.Item2;
+            prize = roll.Item3;
 
  
 

@@ -44,17 +44,17 @@ namespace SlotMachine.src
             symbols2.Add('d', 6);
 
 
-            Reel reel0 = new Reel(symbols0,mappings,0);
-            Reel reel1 = new Reel(symbols1,mappings, 1);
-            Reel reel2 = new Reel(symbols2,mappings, 2);
+            Reel reel0 = new Reel(symbols0, mappings, 0);
+            Reel reel1 = new Reel(symbols1, mappings, 1);
+            Reel reel2 = new Reel(symbols2, mappings, 2);
 
 
             game.addReel(reel0.getReel());
             game.addReel(reel1.getReel());
             game.addReel(reel2.getReel());
 
-            Winner tripleJ = new Winner(100, 'j',3);
-            Winner tripleA = new Winner(50, 'a',3);
+            Winner tripleJ = new Winner(100, 'j', 3);
+            Winner tripleA = new Winner(50, 'a', 3);
             Winner tripleB = new Winner(20, 'b', 3);
             Winner tripleC = new Winner(10, 'c', 3);
             Winner tripleD = new Winner(5, 'd', 3);
@@ -78,10 +78,11 @@ namespace SlotMachine.src
             return betSize;
         }
 
-        public (List<char>,List<int>) Roll()
+        public (List<char>, List<int>, int prize) Roll()
         {
             List<char> result = new List<char>();
             List<int> indexes = new List<int>();
+            int prize = 0;
 
             if (wallet.GetBalance() - betSize >= 0)
             {
@@ -98,21 +99,22 @@ namespace SlotMachine.src
                 }
 
             }
-            return (result,indexes);
+            prize = Win(result);
+            return (result, indexes,prize);
 
 
         }
 
         public void IncreaseBetSize()
         {
-            if(betSize <= maxBet-1 && betSize <= wallet.GetBalance())
+            if (betSize <= maxBet - 1 && betSize <= wallet.GetBalance())
             {
                 betSize++;
             }
         }
         public bool DecreaseBetSize()
         {
-            if (betSize != 1 )
+            if (betSize != 1)
             {
                 betSize--;
                 return true;
@@ -120,18 +122,22 @@ namespace SlotMachine.src
             return false;
         }
         public int Win(List<char> result)
-        {   
+        {
+            Debug.WriteLine("Win called");
+
             int won = 0;
             List<Winner> winners = game.getWinners();
-            foreach (Winner winner in winners)
+            var counts = result.GroupBy(i => i);
+            Debug.WriteLine("Count length " + counts.Count());
+            foreach (var c in counts)
             {
-                var counts = result.GroupBy(x => x).ToDictionary(g => g.Key, g => g.Count()).ToList();
-                foreach(var c in counts)
+                foreach (Winner winner in winners)
                 {
-                    if(c.Key == winner.Symbol && c.Value == winner.Amount)
+                    if (c.Key == winner.Symbol && c.Count() == winner.Amount)
                     {
+
                         won = winner.Prize * betSize;
-                        wallet.AddCoins(winner.Prize*betSize);
+                        wallet.AddCoins(winner.Prize * betSize);
                     }
                 }
             }
