@@ -1,18 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
+
 
 namespace SlotMachine.src
 {
     class Reel
     {
+        private int index;
         private List<char> reel;
+        private Dictionary<char, string> mappings;
 
-        public Reel()
+        public Reel(Dictionary<char, int> symbols, Dictionary<char, string> mappings,int index)
         {
+            this.index = index;
             reel = new List<char>();
+            this.mappings = mappings;
+            fillReel(symbols);
+
+         
         }
          
         public void fillReel(Dictionary<char, int> symbolInput)
@@ -25,6 +35,8 @@ namespace SlotMachine.src
                 }
             }
             ShuffleMe(reel);
+            ReelAssetGenerator rag = new ReelAssetGenerator();
+            rag.MakeReelGraphic(getReel(), mappings, index);
         }
 
         public static void ShuffleMe<T>(IList<T> list)
@@ -45,5 +57,8 @@ namespace SlotMachine.src
         {
             return reel;
         }
+       
+            
+        
     }
 }

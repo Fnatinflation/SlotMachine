@@ -11,16 +11,27 @@
     <None Remove="res\classic.png" />
     <None Remove="res\diamond.png" />
     <None Remove="res\jelzin.png" />
+    <None Remove="res\reel0.png" />
+    <None Remove="res\reel1.png" />
+    <None Remove="res\reel2.png" />
     <None Remove="res\top.png" />
     <None Remove="res\vlakoff.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="res\classic.png" />
-    <Resource Include="res\diamond.png" />
-    <Resource Include="res\jelzin.png" />
-    <Resource Include="res\top.png" />
-    <Resource Include="res\vlakoff.png" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="res\reel0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="res\reel1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="res\reel2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

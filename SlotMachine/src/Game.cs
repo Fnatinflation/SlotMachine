@@ -12,6 +12,7 @@ namespace SlotMachine.src
         private List<List<char>> reels;
         private List<Winner> winners;
 
+
         public Game()
         {
             reels = new List<List<char>>();

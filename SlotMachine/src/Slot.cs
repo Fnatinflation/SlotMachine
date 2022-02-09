@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+
 
 namespace SlotMachine.src
 {
     class Slot
     {
         private Game game;
+        private Dictionary<char, string> mappings;
         private int betSize;
         private Wallet wallet;
         private int maxBet = 50;
 
-        public Slot(Wallet wallet, Game game)
+        public Slot(Wallet wallet, Game game, Dictionary<char, string> mappings)
         {
             this.wallet = wallet;
             this.game = game;
+            this.mappings = mappings;
             betSize = 1;
 
             Dictionary<char, int> symbols0 = new Dictionary<char, int>();
@@ -40,14 +44,9 @@ namespace SlotMachine.src
             symbols2.Add('d', 6);
 
 
-            Reel reel0 = new Reel();
-            Reel reel1 = new Reel();
-            Reel reel2 = new Reel();
-
-
-            reel0.fillReel(symbols0);
-            reel1.fillReel(symbols1);
-            reel2.fillReel(symbols2);
+            Reel reel0 = new Reel(symbols0,mappings,0);
+            Reel reel1 = new Reel(symbols1,mappings, 1);
+            Reel reel2 = new Reel(symbols2,mappings, 2);
 
 
             game.addReel(reel0.getReel());
@@ -69,7 +68,7 @@ namespace SlotMachine.src
             game.addWinner(tripleD);
             game.addWinner(doubleD);
 
-
+            ReelAssetGenerator rag = new ReelAssetGenerator();
 
 
         }
@@ -79,9 +78,10 @@ namespace SlotMachine.src
             return betSize;
         }
 
-        public List<char> Roll()
+        public (List<char>,List<int>) Roll()
         {
             List<char> result = new List<char>();
+            List<int> indexes = new List<int>();
 
             if (wallet.GetBalance() - betSize >= 0)
             {
@@ -94,10 +94,11 @@ namespace SlotMachine.src
                 {
                     int r = random.Next(0, reel.Count);
                     result.Add(reel[r]);
+                    indexes.Add(r);
                 }
 
             }
-            return result;
+            return (result,indexes);
 
 
         }
@@ -129,7 +130,7 @@ namespace SlotMachine.src
                 {
                     if(c.Key == winner.Symbol && c.Value == winner.Amount)
                     {
-                        won = winner.Prize;
+                        won = winner.Prize * betSize;
                         wallet.AddCoins(winner.Prize*betSize);
                     }
                 }
